@@ -4,7 +4,7 @@ A curated collection of reusable **DAX measures, calculation patterns, and helpe
 
 This repository is designed to centralize common analytical logic used across dashboards, helping reduce duplication, improve consistency, and speed up Power BI development.
 
----
+-----
 
 ## 🎯 Purpose
 
@@ -17,7 +17,7 @@ The goal is to:
 - Standardize KPI logic
 - Support scalable and maintainable Power BI models
 
----
+-----
 
 ## 🧠 What’s Included
 
@@ -34,7 +34,7 @@ The goal is to:
 - Performance-conscious patterns
 - Readable and maintainable DAX
 
----
+-----
 
 ## 🧰 How to Use
 
@@ -49,7 +49,7 @@ You can:
 - Adapt patterns to fit your schema
 - Use the repository as a reference during development
 
----
+-----
 
 ## ⚠️ Notes
 
@@ -57,11 +57,11 @@ You can:
 - Performance may vary depending on relationships, cardinality, and model size.
 - Always test measures in your own environment.
 
----
+-----
 
 ## 👤 Maintainer
 
 Maintained by **Sajjad Ahmadi**  
 Power BI & Data Visualization Consultant
 
----
+-----
