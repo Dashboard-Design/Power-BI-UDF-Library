@@ -13,7 +13,6 @@ This library serves as a reusable reference for **common analytical patterns** t
 The goal is to:
 - Reduce repetitive DAX writing
 - Improve readability and consistency
-- Standardize KPI logic
 - Support scalable and maintainable Power BI models
 
 
@@ -34,13 +33,6 @@ The goal is to:
 
 
 ## How to Use
-
-Each file contains:
-- The DAX pattern (UDF)
-- Explanation of the logic
-- When and why to use it
-- Notes on performance and context
-
 You can:
 - Copy UDF directly into your model
 - Adapt patterns to fit your schema
