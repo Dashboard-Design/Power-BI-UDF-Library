@@ -1,0 +1,27 @@
+DEFINE
+    /// <summary>
+    /// [DYNAMIC FORMATTING FUNCTION]
+    /// Generates a conditional numeric format string (e.g., "#,##0,.0K") based on the magnitude of the currently selected measure.
+    /// Designed to be used as the 'Format String' expression in Power BI's Dynamic Formatting section for Measures.
+    /// </summary>
+    /// <returns>
+    /// A dynamic format string. For example:
+    ///     - For a measure value of 15,500,000: Returns "#,##0,,.0M" to display as "15.5M".
+    ///     - For a measure value of 2,500: Returns "#,##0,.K" to display as "2.5K".
+    /// </returns>
+    /// <note>
+    /// This function is 'measure-agnostic'. It will apply the same dynamic scaling logic to ANY measure it is assigned to in the dynamic formatting rule.
+    /// </note>
+    function Numberformatting =
+        () =>
+        VAR _value = SELECTEDMEASURE()
+        VAR _absValue = ABS( _value  )
+        VAR _fstring =
+            SWITCH(TRUE(),
+                _absValue >= 1e9,  "#,##0,,,.0B",
+                _absValue >= 1e6,  "#,##0,,.0M",
+                _absValue >= 1e3,  "#,##0,.K",
+                "#,##0"
+            )
+        RETURN
+        _fstringtring

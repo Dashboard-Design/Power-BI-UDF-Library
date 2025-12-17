@@ -1,0 +1,38 @@
+DEFINE
+    /// <summary>
+    /// Dynamically formats a numeric measure into a compact, human-readable string with units (K, M, B).
+    /// The format is automatically selected based on the absolute value of the input.
+    /// </summary>
+    /// <param name="_Measure">The numeric value or measure to be formatted.</param>
+    /// <returns>
+    /// A formatted text string. For example:
+    ///     - 15000000  --> "15.0M"
+    ///     - -4250     --> "-4.3K"
+    ///     - 999       --> "999"
+    /// </returns>
+    /// <example>
+    /// // In a visual's "Values" field or a calculated column:
+    /// Formatted_Attrition = Numberformatting([Attrition_Rate])
+    /// </example>
+    /// <logic>
+    /// 1. Takes the absolute value to determine the magnitude scale.
+    /// 2. Selects a format string based on fixed thresholds:
+    ///    - |value| >= 1,000,000,000: Formats as Billions with one decimal (e.g., "1.2B").
+    ///    - |value| >= 1,000,000:    Formats as Millions with one decimal (e.g., "15.0M").
+    ///    - |value| >= 1,000:        Formats as Thousands with one decimal (e.g., "125.5K").
+    ///    - |value| < 1,000:         Uses standard number formatting with no decimals.
+    /// 3. Applies the selected format to the original (signed) value.
+    /// </logic>
+    function Numberformatting =
+        (_Measure: numeric ) =>
+        VAR _value = _Measure
+        VAR _absValue = ABS( _value  )
+        VAR _fstring =
+            SWITCH(TRUE(),
+                _absValue >= 1e9,  "#,##0,,,.0B",
+                _absValue >= 1e6,  "#,##0,,.0M",
+                _absValue >= 1e3,  "#,##0,.K",
+                "#,##0"
+            )
+        RETURN
+        FORMAT( _value, _fstring)
