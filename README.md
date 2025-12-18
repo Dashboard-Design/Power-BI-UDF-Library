@@ -5,7 +5,7 @@ A curated collection of reusable **DAX measures, calculation patterns, and helpe
 This repository is designed to centralize common analytical logic used across dashboards, helping reduce duplication, improve consistency, and speed up Power BI development.
 
 
-## 🎯 Purpose
+## Purpose
 
 In Power BI projects, the same DAX logic is often rewritten across different models and reports.
 This library serves as a reusable reference for **common analytical patterns** that can be adapted and applied across projects.
@@ -13,11 +13,10 @@ This library serves as a reusable reference for **common analytical patterns** t
 The goal is to:
 - Reduce repetitive DAX writing
 - Improve readability and consistency
-- Standardize KPI logic
 - Support scalable and maintainable Power BI models
 
 
-## 🧠 What’s Included
+## What’s Included
 
 ### Common DAX Patterns
 - Time intelligence (YTD, MTD, rolling periods)
@@ -33,20 +32,13 @@ The goal is to:
 - Readable and maintainable DAX
 
 
-## 🧰 How to Use
-
-Each file contains:
-- The DAX pattern (UDF)
-- Explanation of the logic
-- When and why to use it
-- Notes on performance and context
-
+## How to Use
 You can:
 - Copy UDF directly into your model
 - Adapt patterns to fit your schema
 - Use the repository as a reference during development
 
-## ⚠️ Notes
+## Notes
 
 - These patterns are **generic by design** — always adapt them to your data model.
 - Performance may vary depending on relationships, cardinality, and model size.
