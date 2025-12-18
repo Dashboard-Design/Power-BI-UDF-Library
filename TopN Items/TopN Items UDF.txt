@@ -1,0 +1,36 @@
+DEFINE
+    /// Returns a comma-separated string of the top N items from a column, ranked descending by the provided measure.
+	function UDF_TopNItems =
+		( 
+			_measure: scalar decimal expr,
+		 	_column: anyref expr,
+			_topN: numeric val
+		 		 
+		) =>
+		VAR _ranking =
+		ADDCOLUMNS(
+			VALUES(_column),
+			"@Amount", _measure
+		)
+		VAR _topItem =
+		TOPN(
+			_topN,
+			_ranking,
+			[@Amount],
+			DESC
+		)
+		VAR _result =
+		CONCATENATEX(
+			_topItem,
+			_column & " " & [@Amount],
+			", ",
+			[@Amount],
+			DESC
+		)
+		RETURN
+		_result
+			
+		 
+		 
+
+		
