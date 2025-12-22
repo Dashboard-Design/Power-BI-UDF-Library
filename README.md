@@ -50,8 +50,6 @@ You can:
 - Performance may vary depending on relationships, cardinality, and model size.
 - Always test measures in your own environment.
 
------
-
 ## Resources
 
 - [DAX Best Practices: User-Defined Functions](https://learn.microsoft.com/en-us/dax/best-practices/dax-user-defined-functions) (Microsoft Learn)
