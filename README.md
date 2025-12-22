@@ -38,6 +38,12 @@ You can:
 - Adapt patterns to fit your schema
 - Use the repository as a reference during development
 
+## Demo Video
+
+[![Power BI User-Defined Functions Demo](https://img.youtube.com/vi/wcLV06P1AfU/maxresdefault.jpg)](https://www.youtube.com/watch?v=wcLV06P1AfU)
+
+*Click the thumbnail above to watch a demo of User-Defined Functions in Power BI.*
+
 ## Notes
 
 - These patterns are **generic by design** — always adapt them to your data model.
@@ -46,8 +52,11 @@ You can:
 
 -----
 
+## Resources
+
+- [DAX Best Practices: User-Defined Functions](https://learn.microsoft.com/en-us/dax/best-practices/dax-user-defined-functions) (Microsoft Learn)
+
 ## 👤 Maintainer
 
 Maintained by **Sajjad Ahmadi**  
 Power BI & Data Visualization Consultant
-
