@@ -29,31 +29,30 @@ UDFs are organized by **intent**, not theory — mirroring how Power BI develope
 UDFs for handling filters, selections, drill levels, and evaluation context.
 
 Typical use cases:
-- Dynamic titles
-- Context-aware logic
-- Conditional visibility
-- Debugging and validation
+  - Dynamic titles
+  - Context-aware logic
+  - Conditional visibility
+  - Debugging and validation
 
 
 ### 📁 Time Intelligence
 Reusable time-based calculation patterns.
 
 Includes:
-- MTD / YTD (safe patterns)
-- Previous period comparisons
-- Rolling periods
-- Date-aware labels and comparisons
-
+  - MTD / YTD (safe patterns)
+  - Previous period comparisons
+  - Rolling periods
+  - Date-aware labels and comparisons
 
 
 ### 📁 KPI & Metrics
 Business logic that evaluates performance.
 
 Includes:
-- KPI status and variance
-- Percentage change
-- Threshold-based logic
-- Ranking and Top-N patterns
+  - KPI status and variance
+  - Percentage change
+  - Threshold-based logic
+  - Ranking and Top-N patterns
 
 
 
@@ -61,20 +60,20 @@ Includes:
 UDFs focused on presentation and usability.
 
 Includes:
-- Color conditional formatting ✅
-- Number formatting ✅
-- Percentage and variance labels
-- Compact and readable value formatting
+  - Color conditional formatting ✅
+  - Number formatting ✅
+  - Percentage and variance labels
+  - Compact and readable value formatting
 
 
 ### 📁 SVG & Custom Visuals
 Reusable SVG-based visuals built with DAX.
 
 Includes:
-- Progress bars
-- Bar-in-bar visuals
-- Gauges
-- KPI badges and indicators
+  - Progress bars
+  - Bar-in-bar visuals
+  - Gauges
+  - KPI badges and indicators
 
 These patterns allow highly customized visuals without relying on external custom visuals.
 
