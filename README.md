@@ -4,7 +4,6 @@ A curated collection of reusable **DAX measures, calculation patterns, and helpe
 
 This repository is designed to centralize common analytical logic used across dashboards, helping reduce duplication, improve consistency, and speed up Power BI development.
 
----
 
 ## Purpose
 
@@ -21,11 +20,10 @@ The goals are to:
 - Provide copy-paste-ready building blocks for faster development  
 
 
----
-
 ## Repository Structure
 
 UDFs are organized by **intent**, not theory — mirroring how Power BI developers think and work.
+
 
 ### 📁 Context
 UDFs for handling filters, selections, drill levels, and evaluation context.
@@ -36,7 +34,6 @@ Typical use cases:
 - Conditional visibility
 - Debugging and validation
 
----
 
 ### 📁 Time Intelligence
 Reusable time-based calculation patterns.
@@ -47,7 +44,7 @@ Includes:
 - Rolling periods
 - Date-aware labels and comparisons
 
----
+
 
 ### 📁 KPI & Metrics
 Business logic that evaluates performance.
@@ -58,7 +55,7 @@ Includes:
 - Threshold-based logic
 - Ranking and Top-N patterns
 
----
+
 
 ### 📁 UX & Formatting
 UDFs focused on presentation and usability.
@@ -69,7 +66,6 @@ Includes:
 - Percentage and variance labels
 - Compact and readable value formatting
 
----
 
 ### 📁 SVG & Custom Visuals
 Reusable SVG-based visuals built with DAX.
@@ -82,7 +78,6 @@ Includes:
 
 These patterns allow highly customized visuals without relying on external custom visuals.
 
----
 
 ## What’s Included
 
@@ -92,7 +87,6 @@ These patterns allow highly customized visuals without relying on external custo
 - Performance-conscious implementations
 - Clear, readable measure design
 
----
 
 ## How to Use
 
@@ -105,7 +99,6 @@ You can:
 
 Each UDF is intentionally generic and meant to be customized.
 
----
 
 ## Demo Video (Optional)
 
@@ -117,7 +110,6 @@ You **do not need to watch the video** to use the UDFs — the repository is ful
 
 *The video explains the concept of UDFs in Power BI and how patterns in this repository can be applied in real projects.*
 
----
 
 ## Notes
 
@@ -125,14 +117,12 @@ You **do not need to watch the video** to use the UDFs — the repository is ful
 - Performance depends on relationships, cardinality, and model design.
 - Always test measures in your own environment before production use.
 
----
 
 ## Resources
 
 - DAX Best Practices: User-Defined Functions (Microsoft Learn)  
   https://learn.microsoft.com/en-us/dax/best-practices/dax-user-defined-functions
 
----
 
 ## 👤 Maintainer
 
