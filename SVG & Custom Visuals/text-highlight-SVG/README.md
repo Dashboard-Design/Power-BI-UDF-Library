@@ -2,7 +2,7 @@
 
 This folder contains DAX measures that generate **dynamic SVG images** to create colorful, width‑adjustable "status pill" visuals directly in your Power BI reports. They are perfect for highlighting categories, statuses, or any dimension values with consistent, automatically assigned colors.
 
-![Example of SVG Pills in a Power BI Table](images/powerbi-svg-pill-example.png) <!-- REPLACE WITH YOUR CORRECT IMAGE PATH -->
+<img width="1228" height="743" alt="Image" src="https://github.com/user-attachments/assets/8edcb24d-2ad3-4eaf-8736-06d2a76161d4" />
 
 ## ✨ Features
 
@@ -20,8 +20,8 @@ In the template, look for the "CONFIGURATION" section:
 
 *   `_FontWeight`: Change text thickness (e.g., "400"=normal, "700"=bold).
 *   `_CharWidth`: Adjust the estimated pixels per character if the pills look too tight or too wide.
-*   `_Padding`: Add more horizontal space around the text.
-*   `_Color` Palette: Replace the hex codes in the `SWITCH` statement with your own brand colors.
+*   `_FontSize`: Change text size.
+*   `_SvgHeight` Palette: Change height of svg.
 
 ## 🧠 Advanced: Using the User-Defined Function (UDF)
 
@@ -30,8 +30,7 @@ If you have enabled the **DAX user-defined functions** preview feature (Options 
 1.  Open **DAX Query View**.
 2.  Paste the UDF definition and click **Update Model** to save it.
 3.  Now you can call it from any measure like a built-in function:
-    `Measure = SVG_Pill( 'YourTable'[YourColumn] )`
-    You can also override the defaults: `SVG_Pill( 'Table'[Col], "700", 8, 10 )`
+    `Measure = SVG_Pill(Orders[Category], 11, 600, 7, 22 )`
 
 ## 💡 Tips
 
