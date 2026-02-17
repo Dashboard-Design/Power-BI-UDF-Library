@@ -1,0 +1,95 @@
+DEFINE
+    /// SVG_Pill creates a colored, width-adjusted pill for any dimension column.
+    /// Parameters:
+    ///   dimensionColumn : ANYREF EXPR - The column to visualize (e.g., 'Orders'[Sub-Category]).
+    ///   font size "10", "11", etc.
+    ///   font weight "400", "700", etc.
+    ///   Charachter Width "6", "7", etc.
+    ///   SVG height "22", "30", etc.
+    FUNCTION SVG_Pill = 
+        (
+            dimensionColumn : ANYREF EXPR, 
+            fontSize        : NUMERIC VAL, 
+            fontWeight      : STRING VAL, 
+            charWidth       : NUMERIC VAL, 
+            svgHeight       : NUMERIC VAL 
+        ) =>
+        IF (
+            HASONEVALUE( dimensionColumn ),
+            VAR _CategoryValue = UPPER(SELECTEDVALUE( dimensionColumn ))
+
+            ------------------------------------------------------------------------------------
+            -- 1. AUTOMATIC COLOR (based on a simple hash of the value)
+
+            -- Sum the Unicode values of all characters to create a numeric hash
+            VAR _Hash = 
+                SUMX(
+                    GENERATESERIES( 1, LEN( _CategoryValue ) ),
+                    UNICODE( MID( _CategoryValue, [Value], 1 ) )
+                )
+            
+            -- an index from 0 to 13 (14 colors in the palette)
+            VAR _ColorIndex = MOD( _Hash *LEN(_CategoryValue), 14 )
+            
+            -- a palette of 14 distinct colors 
+            VAR _Color =
+                SWITCH(
+                    _ColorIndex,
+                    0,  "#e03131",   -- Red
+                    1,  "#e8590c",   -- Orange
+                    2,  "#f08c00",   -- Yellow
+                    3,  "#2f9e44",   -- Green
+                    4,  "#099268",   -- Teal
+                    5,  "#0c8599",   -- Cyan
+                    6,  "#1971c2",   -- Blue
+                    7,  "#6741d9",   -- Purple
+                    8,  "#9c36b5",   -- Violet
+                    9,  "#c2255c",   -- Pink
+                    10, "#846358",   -- Brown
+                    11, "#343a40",   -- Dark Grey
+                    12, "#1e1e1e",   -- Blackish
+                    13, "#000000",   -- Black
+                    "#000000"        -- Fallback
+                )
+
+            ------------------------------------------------------------------------------------
+            -- 2. FONT WEIGHT 
+
+            VAR _FontWeight = fontWeight   -- Normal weight
+
+            ------------------------------------------------------------------------------------
+            -- 3. DYNAMIC WIDTH BASED ON TEXT LENGTH
+
+            VAR _TextLength = LEN( _CategoryValue )
+            VAR _CharWidth = charWidth                              -- Approx. pixel width per character (adjust based on font/size)
+            VAR _Padding = 10                                        -- Total horizontal padding (left + right) in pixels
+            VAR _SvgWidth = (_CharWidth * if(_TextLength>=14, _TextLength - 2.5, _TextLength )) + _Padding
+
+            ------------------------------------------------------------------------------------
+            -- 4. BUILD THE SVG
+
+            VAR _SvgPrefix = 
+                "data:image/svg+xml;utf8, <svg xmlns='http://www.w3.org/2000/svg' width='"
+                & _SvgWidth & "' height='" & svgHeight & "' viewBox='0 0 " & _SvgWidth & " " & svgHeight & "'>"
+            
+            VAR _Background =
+                "<rect x='0.5' y='0.5' width='98%' height='95%' rx='15%' fill='"
+                & _Color & "22"          -- "22" adds ~13% opacity for a lighter background
+                & "' stroke='"
+                & _Color
+                & "'/>"
+            
+            VAR _Label =
+                "<text x='50%' y='55%' font-family='Segoe UI' font-size='"&fontSize&"' font-weight='"
+                & _FontWeight
+                & "' fill='"
+                & _Color
+                & "' text-anchor='middle' dominant-baseline='middle'>"
+                & _CategoryValue
+                & "</text>"
+            
+            VAR _SvgSuffix = "</svg>"
+
+            RETURN
+                _SvgPrefix & _Background & _Label & _SvgSuffix
+        )
