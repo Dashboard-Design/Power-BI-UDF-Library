@@ -27,8 +27,10 @@ DEFINE
                     GENERATESERIES( 1, LEN( _CategoryValue ) ),
                     UNICODE( MID( _CategoryValue, [Value], 1 ) )
                 )
+            
             -- an index from 0 to 13 (14 colors in the palette)
-            VAR _ColorIndex = MOD( _Hash, 14 )
+            VAR _ColorIndex = MOD( _Hash *LEN(_CategoryValue), 14 )
+            
             -- a palette of 14 distinct colors 
             VAR _Color =
                 SWITCH(
