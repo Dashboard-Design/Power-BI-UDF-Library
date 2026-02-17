@@ -2,7 +2,7 @@
 
 This folder contains DAX measures that generate **dynamic SVG images** to create colorful, width‑adjustable "status pill" visuals directly in your Power BI reports. They are perfect for highlighting categories, statuses, or any dimension values with consistent, automatically assigned colors.
 
-<img width="1228" height="743" alt="Image" src="https://github.com/user-attachments/assets/8edcb24d-2ad3-4eaf-8736-06d2a76161d4" />
+![Image](https://github.com/user-attachments/assets/133887bd-6879-4c56-a11a-aca84a71ae56)
 
 ## ✨ Features
 
