@@ -20,8 +20,8 @@ In the template, look for the "CONFIGURATION" section:
 
 *   `_FontWeight`: Change text thickness (e.g., "400"=normal, "700"=bold).
 *   `_CharWidth`: Adjust the estimated pixels per character if the pills look too tight or too wide.
-*   `_Padding`: Add more horizontal space around the text.
-*   `_Color` Palette: Replace the hex codes in the `SWITCH` statement with your own brand colors.
+*   `_FontSize`: Change text size.
+*   `_SvgHeight` Palette: Change height of svg.
 
 ## 🧠 Advanced: Using the User-Defined Function (UDF)
 
