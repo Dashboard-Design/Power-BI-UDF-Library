@@ -1,40 +1,38 @@
-# SVG Visuals for Power BI: Dynamic Status Pills
+# SVG Visuals for Power BI: Target Line Bar Chart
 
-This folder contains DAX measures that generate **dynamic SVG images** to create colorful, width‑adjustable "status pill" visuals directly in your Power BI reports. They are perfect for highlighting categories, statuses, or any dimension values with consistent, automatically assigned colors.
+This folder contains DAX measures that generate **dynamic SVG bar charts with a target line** directly in your Power BI reports. They are ideal for comparing actual performance against goals across categories, with a clean, professional design.
 
-<img width="1228" height="743" alt="Image" src="https://github.com/user-attachments/assets/8edcb24d-2ad3-4eaf-8736-06d2a76161d4" />
+![Image](https://github.com/user-attachments/assets/80763a20-939a-4996-988c-2963de3ff22d)
+
 
 ## ✨ Features
 
-*   **Automatic Colors** – Each distinct value gets a unique color from a fixed palette, based on a simple hash of the text. No manual color mapping is needed.
-*   **Dynamic Width** – The pill’s width automatically adjusts to the length of the text (character count + padding).
-*   **Easy to Use** – Two versions are provided:
-    1.  **Template Measure**: Just change one line to point to your dimension column.
-    2.  **User‑Defined Function (UDF)**: A reusable function (once enabled) that accepts any column as a parameter.
-*   **Customizable** – Font weight, padding, character width, and the color palette can be easily tweaked.
-
+- **Actual vs. Target Comparison** – Each bar represents an actual value, with a dashed vertical line the target.
+- **Automatic Global Scaling** – All bars share the same axis scale based on the maximum value across selected categories (plus headroom), ensuring fair visual comparison.
+- **Clean Visual Design** – Light grey background track, rounded bars, and a distinctive dashed target line.
+- **Conditional Colors** – Bars turn red when below target, green when at or above target (colors are fully customizable).
+- **Easy to Use** – Two versions are provided:
+    1.  **Template Measure**: Just change the measure and column references.
+    2.  **User‑Defined Function (UDF)**: A reusable function (once enabled) that accepts actual/target measures and a dimension column as parameters.
+- **Highly Customizable** – Chart dimensions, axis margins, colors, and target marker can all be tweaked.
 
 ## ⚙️ Customization Options
 
-In the template, look for the "CONFIGURATION" section:
+In the template measure, look for the "CONFIGURATION" section (near the top). In the UDF, these become optional parameters:
 
-*   `_FontWeight`: Change text thickness (e.g., "400"=normal, "700"=bold).
-*   `_CharWidth`: Adjust the estimated pixels per character if the pills look too tight or too wide.
-*   `_FontSize`: Change text size.
-*   `_SvgHeight` Palette: Change height of svg.
-
-## 🧠 Advanced: Using the User-Defined Function (UDF)
-
-If you have enabled the **DAX user-defined functions** preview feature (Options > Preview features), you can use the `SVG_Pill_UDF.dax` code.
-
-1.  Open **DAX Query View**.
-2.  Paste the UDF definition and click **Update Model** to save it.
-3.  Now you can call it from any measure like a built-in function:
-    `Measure = SVG_Pill(Orders[Category], 11, 600, 7, 22 )`
+| Parameter | Description | Default |
+| :--- | :--- | :--- |
+| `chartHeight` | Total height of the chart area (pixels) | `35` |
+| `barHeight` | Height of the actual bar (pixels) | `28` |
+| `axisMinValue` | Left margin (start of axis) | `20` |
+| `axisMaxValue` | Right margin (end of axis) | `130` |
+| `belowColor` | Bar color when actual < target | `"#e74c3c"` (soft red) |
+| `aboveColor` | Bar color when actual ≥ target | `"#2ecc71"` (soft green) |
 
 ## 💡 Tips
 
-*   The pills work best with **categorical data** that has a manageable number of unique values.
-*   If two different values accidentally get the same color (a palette collision), you can manually adjust the `SWITCH` statement or increase the palette size.
-*   The `HASONEVALUE` check ensures the SVG only renders when a single value is in context (important for totals or subtotals).
+- The chart works best with **categorical data** where each row represents a distinct category (e.g., product, region, month).
+- The `HASONEVALUE` check ensures the SVG only renders when a single dimension value is in context – important for totals or subtotals where a chart wouldn't make sense.
+- The global axis maximum is calculated across **all selected dimension values** (using `ALLSELECTED`), so the scale stays consistent even when you filter other columns.
+- To add **data labels** (e.g., show the actual number at the end of the bar), you can extend the measure by adding a `<text>` element – similar to how it was done in the Status Pill UDF.
 
