@@ -2,7 +2,8 @@
 
 This folder contains a **reusable DAX user‑defined function (UDF)** that calculates a rolling average over a specified number of periods (days, months, or years). It eliminates repetitive code and ensures consistent time intelligence logic across all your Power BI reports.
 
-![Image](https://github.com/user-attachments/assets/480bc2f8-5acc-4da3-9241-dfce92499d0c)
+![Image](https://github.com/user-attachments/assets/6ea6c019-3a47-409e-8885-dc820ce6606b)
+
 
 ## ✨ Features
 
