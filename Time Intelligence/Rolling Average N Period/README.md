@@ -1,31 +1,61 @@
-# SVG Visuals for Power BI: Dynamic Status Pills
+# DAX Time Intelligence: Rolling Average UDF
 
-This folder contains DAX measures that generate **dynamic SVG images** to create colorful, width‑adjustable "status pill" visuals directly in your Power BI reports. They are perfect for highlighting categories, statuses, or any dimension values with consistent, automatically assigned colors.
+This folder contains a **reusable DAX user‑defined function (UDF)** that calculates a rolling average over a specified number of periods (days, months, or years). It eliminates repetitive code and ensures consistent time intelligence logic across all your Power BI reports.
 
-![Image](https://github.com/user-attachments/assets/133887bd-6879-4c56-a11a-aca84a71ae56)
+![Image](https://github.com/user-attachments/assets/6ea6c019-3a47-409e-8885-dc820ce6606b)
+
 
 ## ✨ Features
 
-*   **Automatic Colors** – Each distinct value gets a unique color from a fixed palette, based on a simple hash of the text. No manual color mapping is needed.
-*   **Dynamic Width** – The pill’s width automatically adjusts to the length of the text (character count + padding).
-*   **Easy to Use** – Two versions are provided:
-    1.  **Template Measure**: Just change one line to point to your dimension column.
-    2.  **User‑Defined Function (UDF)**: A reusable function (once enabled) that accepts any column as a parameter.
-*   **Customizable** – Font weight, padding, character width, and the color palette can be easily tweaked.
+- **Flexible Periods** – Choose from `DAY`, `MONTH`, or `YEAR` to match your reporting granularity.
+- **Single Reusable Function** – Define once, use everywhere. No more copying and pasting similar `DATESINPERIOD` logic.
+- **Automatic Context Awareness** – The rolling window always ends at the last date in the current filter context (e.g., the current row in a matrix).
+- **Seamless Integration** – Works like any built‑in DAX function once saved to your model.
+- **Consistent Averaging** – Averages the measure **per distinct period** (e.g., average monthly sales, not average per transaction), matching common business requirements.
 
+## ⚙️ Parameters
 
-## ⚙️ Customization Options for UDF
+When you call `UDF_RollingAverage`, you must provide three arguments:
 
-In the template, look for the "CONFIGURATION" section:
+| Parameter | Type | Description | Example |
+| :--- | :--- | :--- | :--- |
+| `_measure` | `SCALAR NUMERIC EXPR` | The measure you want to average (e.g., `[Sales]`, `[Profit]`). | `[Sales]` |
+| `numPeriods` | `NUMERIC` | Number of periods to include (positive integer). | `3` |
+| `periodUnit` | `STRING` | Unit of time: `"DAY"`, `"MONTH"`, or `"YEAR"`. Case‑insensitive. | `"MONTH"` |
 
-*   `_FontWeight`: Change text thickness (e.g., "400"=normal, "700"=bold).
-*   `_CharWidth`: Adjust the estimated pixels per character if the pills look too tight or too wide.
-*   `_FontSize`: Change text size.
-*   `_SvgHeight` Palette: Change height of svg.
+## 🧠 Advanced: Using the User-Defined Function (UDF)
+
+If you have enabled the **DAX user-defined functions** preview feature (Options > Preview features), you can use the `UDF_RollingAverage` code.
+
+1.  **Open DAX Query View**.
+2.  **Paste the UDF definition** (provided below) and click **Update Model** to save it to your model.
+3.  Now you can call it from any measure like a built‑in function:
+
+    ```dax
+    -- Rolling average over the last 3 months
+    Sales Rolling 3M = UDF_RollingAverage( [Sales], 3, "MONTH" )
+
+    -- Rolling average over the last 7 days
+    Sales Rolling 7D = UDF_RollingAverage( [Sales], 7, "DAY" )
+
+    -- Rolling average over the last 3 years
+    Sales Rolling 3Y = UDF_RollingAverage( [Sales], 3, "YEAR" )
+    ```
+
+## 🔧 How It Works
+
+The function uses `DATESINPERIOD` to define a moving window that ends at the **last date visible in the current context** (e.g., the date on the current row of a matrix). Inside that window, it calculates the average of the measure **per distinct period**:
+
+- For `DAY`: average per day (`VALUES( 'Date'[Date] )`).
+- For `MONTH`: average per month (`VALUES( 'Date'[YearMonthNum] )`).
+- For `YEAR`: average per year (`VALUES( 'Date'[Year] )`).
+
+This approach matches your original manual measures and avoids diluting the average by including multiple rows from the same period.
 
 ## 💡 Tips
 
-*   The pills work best with **categorical data** that has a manageable number of unique values.
-*   If two different values accidentally get the same color (a palette collision), you can manually adjust the `SWITCH` statement to match exact values of the selected column.
-*   The `HASONEVALUE` check ensures the SVG only renders when a single value is in context (important for totals or subtotals).
-
+- **Date Table Required** – The function assumes you have a proper date table named `'Date'` with columns `[Date]`, `[YearMonthNum]`, and `[Year]`. Adjust these column names if yours differ.
+- **Works in Any Visual** – Use it in matrixes, charts, or tables. The rolling average will respect slicers and filters.
+- **Performance** – Because it uses `AVERAGEX` over distinct periods, it is efficient even with large fact tables.
+- **Extending the Function** – You can easily add more period units (e.g., `QUARTER`) by adding another `SWITCH` branch and referencing the appropriate column.
+- **Handling Incomplete Periods** – The function will average whatever periods are available. If you need a minimum number of periods, you can wrap the result in an `IF` condition.
