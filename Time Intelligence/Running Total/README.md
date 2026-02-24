@@ -2,7 +2,7 @@
 
 This folder contains a reusable **User‑Defined Function (UDF)** that calculates a running total (cumulative sum) over an ordered column. It supports optional partitioning and direction control, and uses a simple convention to disable partitioning when needed.
 
-![Example of Running Total in a Power BI Table](images/runningtotal-example.png) <!-- REPLACE WITH YOUR ACTUAL SCREENSHOT -->
+<img width="1247" height="437" alt="Image" src="https://github.com/user-attachments/assets/ea5838fc-bd4a-4755-9044-6bf03d0d7a7c" />
 
 ## ✨ Features
 
