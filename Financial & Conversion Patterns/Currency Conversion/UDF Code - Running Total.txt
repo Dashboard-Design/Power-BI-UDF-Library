@@ -1,0 +1,48 @@
+DEFINE
+    /// RunningTotal calculates a cumulative total over an ordered column, optionally partitioned.
+    /// Parameters:
+    /// measure       : SCALAR NUMERIC EXPR - The measure to accumulate (e.g., [Sales]).
+    /// orderTable    : ANYREF EXPR         - The table containing the order column (e.g., 'Date').
+    /// orderBy       : ANYREF EXPR         - The column that defines the order (e.g., 'Date'[Date]).
+    /// partitionBy   : ANYREF EXPR         - Column to restart the total for each group.
+    ///                                         To get a global running total (no partition),
+    ///                                         pass the same column as _orderBy.
+    /// direction     : STRING              - "ASC" or "DESC"
+    /// Returns: Running total of the measure
+    FUNCTION UDF_RunningTotal = (
+            _measure      : SCALAR NUMERIC EXPR,
+            _orderTable   : ANYREF EXPR,
+            _orderBy      : ANYREF EXPR,
+            _partitionBy  : ANYREF EXPR,
+            _direction    : STRING
+        ) =>
+            --------------------------------------------------------------------
+            -- Set defaults and current values
+            --------------------------------------------------------------------
+            VAR _Direction = UPPER( COALESCE( _direction, "ASC" ) )
+            VAR _CurrentOrder = MAX( _orderBy )
+            --------------------------------------------------------------------
+            -- Build filter over all visible rows of the order table
+            -- (removes any direct filters on orderBy, but keeps other filters like slicers)
+            --------------------------------------------------------------------
+            VAR _OrderFilter = 
+                FILTER(
+                    ALLSELECTED( _orderTable ),
+                    IF( _Direction = "ASC",
+                        _orderBy <= _CurrentOrder,
+                        _orderBy >= _CurrentOrder
+                    )
+                )
+
+            --------------------------------------------------------------------
+            -- Apply partition filter only if a partition column was provided
+            --------------------------------------------------------------------
+            VAR _FinalFilter = 
+                FILTER( _OrderFilter, _partitionBy = MAX(_partitionBy))
+
+
+            --------------------------------------------------------------------
+            -- Calculate running total, and hide at grand totals (optional)
+            --------------------------------------------------------------------
+            VAR _Result = IF( MAX(_orderBy)=CONVERT(MAX(_partitionBy), DATETIME), CALCULATE( _measure, _OrderFilter ), CALCULATE( _measure, _FinalFilter ))
+            RETURN IF( HASONEVALUE( _orderBy ), _Result, BLANK() )
