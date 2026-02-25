@@ -1,0 +1,37 @@
+DEFINE
+    /// GetExchangeRate returns the latest exchange rate from a rate table on or before a given date.
+    /// It does not rely on any relationship; it performs a direct lookup.
+    ///
+    /// Parameters:
+    ///   rateTable     : ANYREF EXPR - Table containing exchange rates (e.g., 'EUvsUSD_Exchange').
+    ///   rateDateCol   : ANYREF EXPR - Date column in the rate table (e.g., 'EUvsUSD_Exchange'[observation_date]).
+    ///   rateValueCol  : ANYREF EXPR - Column with the exchange rate value (e.g., 'EUvsUSD_Exchange'[EU vs. USD]).
+    ///   asOfDate      : DATETIME    - The date for which to get the rate (e.g., Orders[Order Date]).
+    ///
+    /// Returns: The exchange rate (scalar) or the default value.
+
+    FUNCTION GetExchangeRate = 
+        (
+            rateTable     : ANYREF EXPR,
+            rateDateCol   : ANYREF EXPR,
+            rateValueCol  : ANYREF EXPR,
+            asOfDate      : DATETIME 
+        ) =>
+        
+        -- Find the latest date in the rate table that is <= asOfDate and has a non-blank rate
+        VAR _LastDate =
+            CALCULATE(
+                MAX( rateDateCol ),
+                FILTER(
+                    rateTable,
+                    rateDateCol <= asOfDate &&
+                    NOT ISBLANK( rateValueCol )
+                )
+            )
+        -- Get the rate for that date
+        VAR _Rate =
+            CALCULATE(
+                SELECTEDVALUE( rateValueCol ),
+                FILTER( rateTable, rateDateCol = _LastDate )
+            )
+        RETURN _Rate 
