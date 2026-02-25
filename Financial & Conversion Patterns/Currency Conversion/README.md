@@ -13,12 +13,7 @@ This folder contains a reusable **DAX user‑defined function (UDF)** that retri
 - **Lightweight** – Designed to be called inside iterators like `SUMX`, or even as a calculated column.
 
 ## 📥 How to Use
-
-### 1. Enable UDF Preview (if not already)
-- Go to **File → Options and settings → Options → Preview features**.
-- Check **DAX user‑defined functions** and restart Power BI Desktop.
-
-### 2. Save the UDF to Your Model
+### Save the UDF to Your Model
 - Open **DAX Query View** (the icon next to Model view).
 - Paste the following UDF definition:
 
