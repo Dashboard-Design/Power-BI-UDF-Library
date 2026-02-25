@@ -1,52 +1,61 @@
-# Running Total UDF for Power BI
+# Currency Conversion UDF
 
-This folder contains a reusable **User‑Defined Function (UDF)** that calculates a running total (cumulative sum) over an ordered column. It supports optional partitioning and direction control, and uses a simple convention to disable partitioning when needed.
+This folder contains a reusable **DAX user‑defined function (UDF)** that retrieves the latest exchange rate from a rate table on or before a given date. It eliminates the need to rewrite the same lookup logic in every measure that requires currency conversion.
 
-<img width="1247" height="437" alt="Image" src="https://github.com/user-attachments/assets/ea5838fc-bd4a-4755-9044-6bf03d0d7a7c" />
+<img width="983" height="794" alt="Image" src="https://github.com/user-attachments/assets/c0db20a8-1d1e-48dd-b04f-c132a0d5f18d" />
 
 ## ✨ Features
 
-- **Flexible Ordering** – Works with any column that defines a logical order (date, index, month number, etc.).
-- **Optional Partitioning** – Restart the running total for each group (e.g., by year, category) by passing a partition column.
-- **Simple Convention for No Partition** – To get a global running total, just pass the **same column** for both the order and partition parameters.
-- **Direction Control** – Choose ascending (past→present) or descending (future→past).
-- **Respects User Filters** – Uses `ALLSELECTED` on the order table to keep slicers on other tables while removing direct filters on the order table itself (classic running total behavior).
-- **Handles Totals Gracefully** – Returns blank at grand totals (when no single order value is present).
-
-## 🔧 Parameters
-
-All parameters are **required** – no blanks are accepted. Use the convention below to control partitioning.
-
-| Parameter | Type | Description |
-| :--- | :--- | :--- |
-| `_measure` | `SCALAR NUMERIC EXPR` | The measure to accumulate (e.g., `[Sales]`, `[Profit]`). |
-| `_orderTable` | `ANYREF EXPR` | The table containing the order column (e.g., `'Date'`). |
-| `_orderBy` | `ANYREF EXPR` | The column that defines the order (e.g., `'Date'[Date]`). |
-| `_partitionBy` | `ANYREF EXPR` | Column to restart the total for each group. **To disable partitioning, pass the same column as `_orderBy`.** |
-| `_direction` | `STRING` | `"ASC"` for cumulative from smallest to largest; `"DESC"` for largest to smallest. |
+- **As‑of‑Date Lookup** – For any date, finds the most recent exchange rate available in the rate table (on or before that date).
+- **No Relationship Required** – Works independently of model relationships; performs a pure lookup using `CALCULATE` and `FILTER`.
+- **Simple & Reusable** – Define once, then use in any measure that needs currency conversion – just pass the rate table, date column, rate column, and the as‑of date.
+- **Handles Missing Rates Gracefully** – If no rate is found for the date, returns `BLANK()` (easily wrapped with `COALESCE` if a fallback is desired).
+- **Lightweight** – Designed to be called inside iterators like `SUMX`, or even as a calculated column.
 
 ## 📥 How to Use
 
-1. **Enable the UDF preview feature** (if not already):  
-   File → Options → Preview features → check **DAX user-defined functions** → restart.
+### 1. Enable UDF Preview (if not already)
+- Go to **File → Options and settings → Options → Preview features**.
+- Check **DAX user‑defined functions** and restart Power BI Desktop.
 
-2. **Save the UDF to your model**:  
-   - Open **DAX Query View**.  
-   - Paste the `UDF_RunningTotal` definition.  
-   - Click **Update model with changes**.
+### 2. Save the UDF to Your Model
+- Open **DAX Query View** (the icon next to Model view).
+- Paste the following UDF definition:
 
-3. **Call the UDF from any measure**:
+```DEFINE
+    /// GetExchangeRate returns the latest exchange rate from a rate table on or before a given date.
+    /// It does not rely on any relationship; it performs a direct lookup.
+    ///
+    /// Parameters:
+    ///   rateTable     : ANYREF EXPR - Table containing exchange rates (e.g., 'EUvsUSD_Exchange').
+    ///   rateDateCol   : ANYREF EXPR - Date column in the rate table (e.g., 'EUvsUSD_Exchange'[observation_date]).
+    ///   rateValueCol  : ANYREF EXPR - Column with the exchange rate value (e.g., 'EUvsUSD_Exchange'[EU vs. USD]).
+    ///   asOfDate      : DATETIME    - The date for which to get the rate (e.g., Orders[Order Date]).
+    ///
+    /// Returns: The exchange rate (scalar) or the default value.
 
-   ```dax
-   -- Year‑to‑date running total (partitioned by year)
-   Sales YTD = UDF_RunningTotal( [Sales], 'Date', 'Date'[Date], 'Date'[Year], "ASC" )
-
-   -- Global running total over all dates (no partition – same column for order and partition)
-   Sales Running Total = UDF_RunningTotal( [Sales], 'Date', 'Date'[Date], 'Date'[Date], "ASC" )
-
-   -- Descending running total (e.g., remaining sales) with partition
-   Sales Remaining = UDF_RunningTotal( [Sales], 'Date', 'Date'[Date], 'Date'[Year], "DESC" )
-
-   -- Running total within each product category (assuming a 'Product' table with a relationship)
-   Sales by Category Running = 
-   UDF_RunningTotal( [Sales], 'Product', 'Product'[ProductName], 'Product'[Category], "ASC" )
+    FUNCTION GetExchangeRate = 
+        (
+            rateTable     : ANYREF EXPR,
+            rateDateCol   : ANYREF EXPR,
+            rateValueCol  : ANYREF EXPR,
+            asOfDate      : DATETIME 
+        ) =>
+        
+        -- Find the latest date in the rate table that is <= asOfDate and has a non-blank rate
+        VAR _LastDate =
+            CALCULATE(
+                MAX( rateDateCol ),
+                FILTER(
+                    rateTable,
+                    rateDateCol <= asOfDate &&
+                    NOT ISBLANK( rateValueCol )
+                )
+            )
+        -- Get the rate for that date
+        VAR _Rate =
+            CALCULATE(
+                SELECTEDVALUE( rateValueCol ),
+                FILTER( rateTable, rateDateCol = _LastDate )
+            )
+        RETURN _Rate ```
