@@ -22,7 +22,8 @@ This folder contains a reusable **DAX user‑defined function (UDF)** that retri
 - Open **DAX Query View** (the icon next to Model view).
 - Paste the following UDF definition:
 
-```DEFINE
+```
+DEFINE
     /// GetExchangeRate returns the latest exchange rate from a rate table on or before a given date.
     /// It does not rely on any relationship; it performs a direct lookup.
     ///
@@ -58,4 +59,4 @@ This folder contains a reusable **DAX user‑defined function (UDF)** that retri
                 SELECTEDVALUE( rateValueCol ),
                 FILTER( rateTable, rateDateCol = _LastDate )
             )
-        RETURN _Rate ```
+        RETURN _Rate
