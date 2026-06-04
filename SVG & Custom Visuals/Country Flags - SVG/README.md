@@ -2,6 +2,8 @@
 
 Returns a country flag image URL from a country name using one of five available flag styles.
 
+<img width="1343" height="736" alt="Image" src="https://github.com/user-attachments/assets/a1af2478-13fd-4489-ab83-a46ff2a36bc3" />
+
 ## Parameters
 
 | Parameter | Description |
