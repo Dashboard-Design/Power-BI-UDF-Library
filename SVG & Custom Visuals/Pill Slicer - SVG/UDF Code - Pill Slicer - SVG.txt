@@ -1,0 +1,49 @@
+createOrReplace
+
+    /// PillSVG
+    /// Creates a responsive pill-shaped SVG label.
+    ///
+    /// The pill automatically adjusts its width based on the length of the supplied text  
+    /// Parameters:
+    /// Text_dimensionColumn : ANYREF EXPR  Text value or column to display inside the pill.
+    /// Color : SCALAR STRING Hex color of the pill background. Example: "#2A6FDB"
+    function PillSVG = ```
+			(
+				dimensionColumn : ANYREF EXPR,
+				color : SCALAR STRING
+			) =>
+
+			VAR _Text =
+				SELECTEDVALUE(dimensionColumn)
+
+			VAR _Chars =
+				LEN ( _Text )
+
+			VAR _Width =
+				MAX ( 35, _Chars * 6 + 24 )
+
+			VAR _Height =
+				31
+
+			RETURN
+
+				"data:image/svg+xml;utf8," &
+
+				"<svg xmlns='http://www.w3.org/2000/svg' width='" & _Width & "' height='" & _Height & "'>" &
+
+				"<rect x='0' y='0' width='" & _Width & "' height='" & _Height &
+				"' rx='16' ry='16' fill='" & Color &
+				"' stroke='rgba(255,255,255,0.2)' stroke-width='4'/>" &
+
+				"<text x='50%' y='52%' text-anchor='middle' dominant-baseline='middle'
+					font-family='Segoe UI, Arial, sans-serif'
+					font-size='13'
+					font-weight='700'
+					fill='white'>" &
+
+					_Text &
+
+				"</text>" &
+
+				"</svg>"
+		```	
