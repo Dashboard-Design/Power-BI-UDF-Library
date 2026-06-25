@@ -2,8 +2,7 @@
 
 This folder contains DAX measures and UDFs that generate **dynamic SVG pill visuals** directly inside Power BI visuals. These pills are designed to highlight products, categories, brands, or any dimension value using a clean, modern badge-style design.
 
-![Image](YOUR_IMAGE_URL_HERE)
-
+<img width="1419" height="724" alt="Image" src="https://github.com/user-attachments/assets/3f601fe2-f4f4-4691-a8bc-f1e8dcdcd895" />
 
 ## ⚙️ Parameters
 
