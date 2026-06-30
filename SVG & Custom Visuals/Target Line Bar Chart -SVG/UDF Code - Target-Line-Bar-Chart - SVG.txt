@@ -1,28 +1,17 @@
 DEFINE
     /// TargetLineBarChart creates an SVG bar chart with a target line.
-    /// Parameters:
-    ///   actualMeasure   : SCALAR NUMERIC EXPR - The measure for actual values (e.g., [Sales CY]).
-    ///   targetMeasure   : SCALAR NUMERIC EXPR - The measure for target values (e.g., [Sales PY]).
-    ///   dimensionColumn : ANYREF EXPR - The column used for grouping (e.g., 'Orders'[Sub-Category]).
-    ///   chartHeight     : NUMERIC - Total height of the chart area. Default = 35.
-    ///   barHeight       : NUMERIC - Height of the actual bar. Default = 28.
-    ///   axisMinValue    : NUMERIC      - Left margin (start of axis). Default = 20.
-    ///   axisMaxValue    : NUMERIC      - Right margin (end of axis). Default = 130.
-    ///   belowColor      : STRING       - Color when actual < target. "#e74c3c" (soft red).
-    ///   aboveColor      : STRING       - Color when actual >= target. "#2ecc71"    
-
     /// Returns: SVG string (data URI) for use in a table/matrix visual.
     FUNCTION UDF_TargetLineBarChart = 
         (
-            actualMeasure   : SCALAR NUMERIC EXPR,
-            targetMeasure   : SCALAR NUMERIC EXPR,
-            dimensionColumn : ANYREF EXPR,
-            chartHeight     : NUMERIC,
-            barHeight       : NUMERIC,
-            axisMinValue    : NUMERIC,
-            axisMaxValue    : NUMERIC,
-            belowColor      : STRING,
-            aboveColor      : STRING 
+            actualMeasure   : SCALAR NUMERIC EXPR,        -- actualMeasure   : The measure for actual values (e.g., [Sales CY])
+            targetMeasure   : SCALAR NUMERIC EXPR,      -- targetMeasure   : The measure for target values (e.g., [Sales PY])
+            dimensionColumn : ANYREF EXPR,               -- dimensionColumn : The column used for grouping (e.g., 'Orders'[Sub-Category])
+            chartHeight     : NUMERIC VAL = 35,          -- chartHeight     : Total height of the chart area. Default=35
+            barHeight       : NUMERIC VAL = 28 ,         -- barHeight       : Height of the actual bar. Default=28
+            axisMinValue    : NUMERIC VAL = 0,           -- axisMinValue    : Left margin (start of axis). Default=20
+            axisMaxValue    : NUMERIC VAL = 130,         -- axisMaxValue    : Right margin (end of axis). Default=130
+            belowColor      : STRING VAL = "#e74c3c",    -- belowColor      : Color when actual < target. "#e74c3c" (soft red)
+            aboveColor      : STRING VAL = "#2ecc71"     -- aboveColor      : Color when actual >= target. "#2ecc71"
         ) =>
 
             ------------------------------------------------------------------------
@@ -71,7 +60,7 @@ DEFINE
             ------------------------------------------------------------------------
             VAR _SvgPrefix = 
                 "data:image/svg+xml;utf8, 
-                <svg xmlns='http://www.w3.org/2000/svg' width='100%' height='100%' viewBox='0 0 " & _AxisMaxValue & " " & _ChartHeight & "' preserveAspectRatio='none'>"
+                <svg xmlns='http://www.w3.org/2000/svg' width='100%' height='100%' viewBox='0 0 " & axisMaxValue & " " & chartHeight & "' preserveAspectRatio='none'>"
 
             -- Center the bar vertically
             VAR _BarY = ( chartHeight - barHeight ) / 2
@@ -101,4 +90,3 @@ DEFINE
                     HASONEVALUE( dimensionColumn ),
                     _SvgPrefix & _SortDesc & _BackgroundTrack & _ActualBar & _TargetLine & _SvgSuffix
                 )
-
