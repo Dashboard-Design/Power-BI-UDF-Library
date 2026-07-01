@@ -19,6 +19,26 @@ The goals are to:
 - Encourage scalable, maintainable Power BI models  
 - Provide copy-paste-ready building blocks for faster development  
 
+## What’s Included
+
+- Reusable DAX UDFs
+- Common analytical patterns
+- SVG-based visual techniques
+- Performance-conscious implementations
+- Clear, readable measure design
+
+## How to Use
+
+<img width="3240" height="4050" alt="Image" src="https://github.com/user-attachments/assets/a2bfce33-f4d3-412d-b338-3db039582a8d" />
+
+You can:
+
+- Copy UDFs directly into your Power BI model  
+- Adapt patterns to fit your schema and business logic  
+- Use the repository as a reference during development  
+- Combine UDFs to build more complex logic  
+
+Each UDF is intentionally generic and meant to be customized.
 
 ## Repository Structure
 
@@ -62,35 +82,13 @@ Includes:
 These patterns allow highly customized visuals without relying on external custom visuals.
 
 
-## What’s Included
-
-- Reusable DAX UDFs
-- Common analytical patterns
-- SVG-based visual techniques
-- Performance-conscious implementations
-- Clear, readable measure design
-
-
-## How to Use
-
-You can:
-
-- Copy UDFs directly into your Power BI model  
-- Adapt patterns to fit your schema and business logic  
-- Use the repository as a reference during development  
-- Combine UDFs to build more complex logic  
-
-Each UDF is intentionally generic and meant to be customized.
-
-
 ## Demo Video (Optional)
 
 This demo video is **only for developers who prefer learning UDF concepts visually** before using the repository.
 
 You **do not need to watch the video** to use the UDFs — the repository is fully usable on its own.
 
-[![Power BI User-Defined Functions Demo](https://img.youtube.com/vi/wcLV06P1AfU/maxresdefault.jpg)](https://www.youtube.com/watch?v=wcLV06P1AfU)
-
+[![Power BI User-Defined Functions Demo](https://img.youtube.com/vi/60jUmTxpxbw/0.jpg)](https://youtu.be/60jUmTxpxbw?si=BvZa6qjzTA736QBs)
 *The video explains the concept of UDFs in Power BI and how patterns in this repository can be applied in real projects.*
 
 
