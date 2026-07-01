@@ -19,49 +19,6 @@ The goals are to:
 - Encourage scalable, maintainable Power BI models  
 - Provide copy-paste-ready building blocks for faster development  
 
-
-## Repository Structure
-
-UDFs are organized by **intent**, not theory — mirroring how Power BI developers think and work.
-
-
-### 📁 Context
-UDFs for handling filters, selections, drill levels, and evaluation context.
-
-Typical use cases:
-  - Context-aware logic
-  - Conditional visibility
-  - Debugging and validation
-
-
-### 📁 Time Intelligence
-Reusable time-based calculation patterns.
-
-Includes:
-  - MTD / YTD (safe patterns)
-  - Comparisons
-  - Running Total and Rolling periods
-  - Date-aware labels and comparisons
-
-
-### 📁 UX & Formatting
-UDFs focused on presentation and usability.
-
-Includes:
-  - Color conditional formatting 
-  - Number formatting 
-
-
-### 📁 SVG & Custom Visuals
-Reusable SVG-based visuals built with DAX.
-
-Includes:
-  - Target Line Bar Chart
-  - Text highlight pill visual
-
-These patterns allow highly customized visuals without relying on external custom visuals.
-
-
 ## What’s Included
 
 - Reusable DAX UDFs
@@ -70,9 +27,8 @@ These patterns allow highly customized visuals without relying on external custo
 - Performance-conscious implementations
 - Clear, readable measure design
 
-
 ## How to Use
-
+<img width="3240" height="4050" alt="Image" src="https://github.com/user-attachments/assets/a2bfce33-f4d3-412d-b338-3db039582a8d" />
 You can:
 
 - Copy UDFs directly into your Power BI model  
