@@ -89,8 +89,7 @@ This demo video is **only for developers who prefer learning UDF concepts visual
 
 You **do not need to watch the video** to use the UDFs — the repository is fully usable on its own.
 
-[![Power BI User-Defined Functions Demo]([https://www.youtube.com/watch?v=60jUmTxpxbw](https://youtu.be/60jUmTxpxbw?si=BvZa6qjzTA736QBs))
-
+[![Power BI User-Defined Functions Demo](https://img.youtube.com/vi/60jUmTxpxbw/0.jpg)](https://youtu.be/60jUmTxpxbw?si=BvZa6qjzTA736QBs)
 *The video explains the concept of UDFs in Power BI and how patterns in this repository can be applied in real projects.*
 
 
